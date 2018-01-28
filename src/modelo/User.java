@@ -26,7 +26,7 @@ public class User {
     public User(String username, String password, Integer pokeballs, Integer potions, Integer level, String place, Integer pokecoins, Integer points) {
         this.username = username;
         this.password = password;
-        this.pokeballs = pokeballs;
+        this.pokeballs = 20;
         this.potions = potions;
         this.level = level;
         this.place = place;

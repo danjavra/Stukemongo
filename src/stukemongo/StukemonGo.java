@@ -24,7 +24,8 @@ public class StukemonGo {
         
         StukemonGoDAO stukemonGoDAO = new StukemonGoDAO();
         
-        User x1 = new User("Ash Ketchum", "123456", 20, 0, 0, "Aula Mac", 0, 0 );
+        User x1 = new User("Ash Ketchum", "123456", 0, 0, 0, "Aula Mac", 0, 0 );
+        
         
         System.out.println("************************************************************");
         System.out.println("Testeando conexión con la base de datos...");
@@ -44,7 +45,7 @@ public class StukemonGo {
       private static void altaUser(StukemonGoDAO stukemonGoDAO, User x1) throws SQLException {
         try {
             stukemonGoDAO.insertarUser(x1);
-            System.out.println("Cocinero dado de alta");
+            System.out.println("Usuario dado de alta");
         } catch (MiExcepcion ex) {
             System.out.println(ex.getMessage());
         }

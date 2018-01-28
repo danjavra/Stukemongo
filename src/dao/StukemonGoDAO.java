@@ -50,7 +50,7 @@ public class StukemonGoDAO {
     }
     
         private boolean existeUser(User a) throws SQLException {
-        String select = "select * from user where name='" + a.getUsername() + "'";
+        String select = "select * from user where username='" + a.getUsername() + "'";
         Statement st = conexion.createStatement();
         boolean existe = false;
         ResultSet rs = st.executeQuery(select);
