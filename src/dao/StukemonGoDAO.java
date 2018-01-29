@@ -127,7 +127,28 @@ public class StukemonGoDAO {
         return existe;
     }    
      
-
+public User getUserByName(User a)throws SQLException, MiExcepcion {
+      User aux = new User(a.getUsername());
+      if (!existeUser(aux)){
+          throw new MiExcepcion("No existe un usuario con ese nombre");
+      } else { 
+          String select = "select * from user where username='" + a.getUsername() + "'";
+          Statement st = conexion.createStatement();
+          ResultSet rs = st.executeQuery(select);
+          if(rs.next()){
+            a.setUsername(a.getUsername());
+            a.setPokeballs(rs.getInt("pokeballs"));
+            a.setPotions(rs.getInt("potions"));
+            a.setLevel(rs.getInt("level"));
+            a.setPlace(rs.getString("place"));
+            a.setPokecoins(rs.getInt("pokecoins"));
+            a.setPoints(rs.getInt("points"));
+          }
+          rs.close();
+          st.close();
+          return a;
+    }
+      }
     
     public void conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/stukemongo";

@@ -102,6 +102,10 @@ public class User {
     public String toString() {
         return "User{" + "username=" + username + ", password=" + password + ", pokeballs=" + pokeballs + ", potions=" + potions + ", level=" + level + ", place=" + place + ", pokecoins=" + pokecoins + ", points=" + points + '}';
     }
-            
+
+    public User(String username) {
+        this.username = username;
+    }
+       
             
 }
