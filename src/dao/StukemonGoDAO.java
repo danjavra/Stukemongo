@@ -114,7 +114,7 @@ public class StukemonGoDAO {
       }
     }    
 
-    private boolean existePokeparada(Pokeparada b) throws SQLException {
+    public boolean existePokeparada(Pokeparada b) throws SQLException {
         String select = "select * from pokeparada where name='" + b.getName() + "'";
         Statement st = conexion.createStatement();
         boolean existe = false;
@@ -127,7 +127,7 @@ public class StukemonGoDAO {
         return existe;
     }    
      
-public User getUserByName(User a)throws SQLException, MiExcepcion {
+    public User getUserByName(User a)throws SQLException, MiExcepcion {
       User aux = new User(a.getUsername());
       if (!existeUser(aux)){
           throw new MiExcepcion("No existe un usuario con ese nombre");
@@ -149,6 +149,27 @@ public User getUserByName(User a)throws SQLException, MiExcepcion {
           return a;
     }
       }
+    
+    public boolean validateUserByPassword(String name, String pass)throws SQLException, MiExcepcion {
+     String select = "select * from user where username = '"+name+"' and password = '"+pass+"' ";
+     Statement st = conexion.createStatement();
+     boolean validate = false;
+        ResultSet rs = st.executeQuery(select);
+        if (rs.next()) {
+            validate = true;
+        }
+        rs.close();
+        st.close();
+        return validate;
+    }    
+     
+    public void updateUserPlace( User a) throws SQLException, MiExcepcion {
+        if (!existeUser(a)){
+          throw new MiExcepcion("No existe un usuario con ese nombre");
+      } else { 
+           String update = "update user set place='"+a.getPlace()+"' where username='" + a.getUsername() + "' ";
+        }
+    }
     
     public void conectar() throws SQLException {
         String url = "jdbc:mysql://localhost:3306/stukemongo";

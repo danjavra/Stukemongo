@@ -59,13 +59,29 @@ public class StukemonGo {
             System.out.println("Testeando insert pokeparada duplicado " + m1.getName());
             altaPokeparada(stukemonGoDAO, m1);
             
-        } catch (SQLException ex) {
+            System.out.println("************************************************************");
+            System.out.println("Testeando validar user por nombre y contraseña, nombre: 'Ash Ketchum' y password: '123456' ");
+            if(stukemonGoDAO.validateUserByPassword("Ash Ketchum", "123456")){
+                System.out.println("Usuario Validado");
+            } else {
+                System.out.println("Usuario no válido");
+            }
+            System.out.println("************************************************************");
+            System.out.println("Testeando validar user erróneo por nombre y contraseña, nombre: ewque y password: 65423 ");
+            if(stukemonGoDAO.validateUserByPassword("ewque", "65423")){
+                System.out.println("Usuario Validado");
+            } else {
+                System.out.println("Usuario no válido");
+            }
+            
+            
+        } catch (SQLException | MiExcepcion ex) {
             System.out.println("Error al conectar / desconectar: " + ex.getMessage());
         }
     
     }
     
-      private static void altaUser(StukemonGoDAO stukemonGoDAO, User x1) throws SQLException {
+    private static void altaUser(StukemonGoDAO stukemonGoDAO, User x1) throws SQLException {
         try {
             stukemonGoDAO.insertarUser(x1);
             System.out.println("Usuario dado de alta");
@@ -73,7 +89,7 @@ public class StukemonGo {
             System.out.println(ex.getMessage());
         }
     }
-
+    
     private static void getUserByName(StukemonGoDAO stukemonGoDAO, User x1) throws SQLException {
         try {
             User usu = stukemonGoDAO.getUserByName(x1);
