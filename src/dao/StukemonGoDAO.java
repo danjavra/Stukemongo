@@ -163,12 +163,16 @@ public class StukemonGoDAO {
         return validate;
     }    
      
-    public void updateUserPlace( User a) throws SQLException, MiExcepcion {
-        if (!existeUser(a)){
-          throw new MiExcepcion("No existe un usuario con ese nombre");
-      } else { 
-           String update = "update user set place='"+a.getPlace()+"' where username='" + a.getUsername() + "' ";
+    public void updateUserPlace(User c) throws SQLException, MiExcepcion {
+          if (!existeUser(c)) {
+            throw new MiExcepcion("ERROR: No existe un usuario con ese nombre");
         }
+        String update = "update user set place=? where username=?";
+        PreparedStatement ps = conexion.prepareStatement(update);
+        ps.setString(1, c.getPlace());
+        ps.setString(2, c.getUsername());
+        ps.executeUpdate();
+        ps.close();
     }
     
     public void conectar() throws SQLException {

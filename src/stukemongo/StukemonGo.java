@@ -74,6 +74,15 @@ public class StukemonGo {
                 System.out.println("Usuario no válido");
             }
             
+            System.out.println("************************************************************");
+            System.out.println("Testeando modificar lugar del usuario " + x1.getUsername());
+            System.out.println("Datos actuales");
+            System.out.println(x1);
+            System.out.println("Estableciendo nuevo lugar en: 'Cafeteria'");
+            x1.setPlace("Cafeteria");
+            updateUserPlace(stukemonGoDAO, x1);
+               
+            
             
         } catch (SQLException | MiExcepcion ex) {
             System.out.println("Error al conectar / desconectar: " + ex.getMessage());
@@ -113,6 +122,15 @@ public class StukemonGo {
         try {
             stukemonGoDAO.insertarPokeparada(m1);
             System.out.println("Pokeparada dado de alta");
+        } catch (MiExcepcion ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    private static void updateUserPlace(StukemonGoDAO stukemonGoDAO, User x1) throws SQLException{
+       try {
+            stukemonGoDAO.updateUserPlace(x1);
+            System.out.println("Modificado lugar del usuario");
         } catch (MiExcepcion ex) {
             System.out.println(ex.getMessage());
         }
