@@ -113,6 +113,7 @@ public class StukemonGo {
             System.out.println("Datos actuales");
             System.out.println(x1);
             System.out.println("Recogiendo regalos en: "+m2.getName()+"");
+            System.out.println(m2);
             cogerRegalos(stukemonGoDAO, x1,m2);
             System.out.println("Datos actualizados");
             System.out.println(x1);

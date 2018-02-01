@@ -262,7 +262,7 @@ public class StukemonGoDAO {
         if(!user.getPlace().equalsIgnoreCase(pokeparada.getPlace())){
             throw new MiExcepcion("No están en el mismo lugar");
         }
-        String recogerRegalos = "update user set pokeballs = (pokeballs+" + (pokeparada.getPokeballs()+user.getPokeballs()) + "), potions = (potions+" + (pokeparada.getPotions()+user.getPotions()) + ") where username = '" + user.getUsername() + "'" ;
+        String recogerRegalos = "update user set pokeballs = (pokeballs+" + pokeparada.getPokeballs() + "), potions = (potions+" + pokeparada.getPotions() + ") where username = '" + user.getUsername() + "'" ;
         Statement st = conexion.createStatement();
         System.out.println(recogerRegalos);
         st.executeUpdate(recogerRegalos);
