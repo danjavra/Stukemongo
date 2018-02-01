@@ -5,6 +5,8 @@
  */
 package modelo;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author DAM
@@ -18,6 +20,7 @@ public class User {
     private String place;
     private Integer pokecoins;
     private Integer points;
+    private ArrayList<Pokemon> pokedex;
     
     public User(){
         
@@ -26,12 +29,13 @@ public class User {
     public User(String username, String password, Integer pokeballs, Integer potions, Integer level, String place, Integer pokecoins, Integer points) {
         this.username = username;
         this.password = password;
-        this.pokeballs = 20;
+        this.pokeballs = pokeballs;
         this.potions = potions;
         this.level = level;
         this.place = place;
         this.pokecoins = pokecoins;
         this.points = points;
+        this.pokedex = new ArrayList<>();
     }
 
     public String getUsername() {
@@ -98,6 +102,16 @@ public class User {
         this.points = points;
     }
 
+    public ArrayList<Pokemon> getPokedex() {
+        return pokedex;
+    }
+
+    public void setPokedex(ArrayList<Pokemon> pokedex) {
+        this.pokedex = pokedex;
+    }
+
+   
+    
     @Override
     public String toString() {
         return "User{" + "username=" + username + ", password=" + password + ", pokeballs=" + pokeballs + ", potions=" + potions + ", level=" + level + ", place=" + place + ", pokecoins=" + pokecoins + ", points=" + points + '}';

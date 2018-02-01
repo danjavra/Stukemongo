@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import modelo.Pokemon;
 import modelo.Pokeparada;
 import modelo.User;
@@ -173,6 +175,98 @@ public class StukemonGoDAO {
         ps.setString(2, c.getUsername());
         ps.executeUpdate();
         ps.close();
+    }
+    
+    public void updatePokemonPlace(Pokemon s) throws SQLException, MiExcepcion {
+          if (!existePokemon(s)) {
+            throw new MiExcepcion("ERROR: No existe un pokemon con ese nombre");
+        }
+        String update = "update pokemon set place=? where name=?";
+        PreparedStatement ps = conexion.prepareStatement(update);
+        ps.setString(1, s.getPlace());
+        ps.setString(2, s.getName());
+        ps.executeUpdate();
+        ps.close();
+    }
+    
+    public List<Pokemon> getPokemonByUserPlace (User a) throws SQLException, MiExcepcion {
+        List<Pokemon> pokemonPlace = new ArrayList<>();  
+        if (!existeUser(a)) {
+            throw new MiExcepcion("ERROR: No existe un usuario con ese nombre");
+        } 
+        String select = "select * from pokemon where place ='"+a.getPlace()+"'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        while (rs.next()){
+            Pokemon listPokemon = new Pokemon();
+            listPokemon.setName(rs.getString("name"));
+            listPokemon.setType(rs.getString("type"));
+            listPokemon.setPc(rs.getInt("pc"));
+            listPokemon.setLife(rs.getInt("life"));
+            listPokemon.setPlace(rs.getString("place"));
+            pokemonPlace.add(listPokemon);
+          }
+          rs.close();
+          st.close();
+          return pokemonPlace;
+     
+    }    
+    
+    public List<User> getUsersByUserPlace (User a) throws SQLException, MiExcepcion {
+        List<User> userPlace = new ArrayList<>();  
+        if (!existeUser(a)) {
+            throw new MiExcepcion("ERROR: No existe un usuario con ese nombre");
+        } 
+        String select = "select * from user where place ='"+a.getPlace()+"'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        while (rs.next()){
+            User listUsers = new User();
+            listUsers.setUsername(rs.getString("username"));
+            listUsers.setPassword(rs.getString("password"));
+            listUsers.setPokeballs(rs.getInt("pokeballs"));
+            listUsers.setPotions(rs.getInt("potions"));
+            listUsers.setLevel(rs.getInt("level"));
+            listUsers.setPlace(rs.getString("place"));
+            listUsers.setPokecoins(rs.getInt("pokecoins"));
+            listUsers.setPoints(rs.getInt("points"));
+            userPlace.add(listUsers);
+          }
+          rs.close();
+          st.close();
+          return userPlace;
+    }   
+    
+    public List<Pokeparada> getPokeparadaByUserPlace (User a) throws SQLException, MiExcepcion {
+        List<Pokeparada> pokeparadaPlace = new ArrayList<>();  
+        if (!existeUser(a)) {
+            throw new MiExcepcion("ERROR: No existe un usuario con ese nombre");
+        } 
+        String select = "select * from pokeparada where place ='"+a.getPlace()+"'";
+        Statement st = conexion.createStatement();
+        ResultSet rs = st.executeQuery(select);
+        while (rs.next()){
+            Pokeparada listParadas = new Pokeparada();
+            listParadas.setName(rs.getString("name"));
+            listParadas.setPlace(rs.getString("place"));
+            listParadas.setPokeballs(rs.getInt("pokeballs"));
+            listParadas.setPotions(rs.getInt("potions"));
+            pokeparadaPlace.add(listParadas);
+          }
+          rs.close();
+          st.close();
+          return pokeparadaPlace;
+    }   
+    
+    public void recogerRegalosPokeparada (User user , Pokeparada pokeparada) throws SQLException, MiExcepcion {
+        if(!user.getPlace().equalsIgnoreCase(pokeparada.getPlace())){
+            throw new MiExcepcion("No están en el mismo lugar");
+        }
+        String recogerRegalos = "update user set pokeballs = (pokeballs+" + (pokeparada.getPokeballs()+user.getPokeballs()) + "), potions = (potions+" + (pokeparada.getPotions()+user.getPotions()) + ") where username = '" + user.getUsername() + "'" ;
+        Statement st = conexion.createStatement();
+        System.out.println(recogerRegalos);
+        st.executeUpdate(recogerRegalos);
+        st.close();
     }
     
     public void conectar() throws SQLException {
