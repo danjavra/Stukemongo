@@ -10,9 +10,14 @@ import dao.StukemonGoDAO;
 import excepciones.MiExcepcion;
 import java.sql.SQLException;
 import java.util.List;
+import modelo.Pokedex;
 import modelo.User;
 import modelo.Pokemon;
 import modelo.Pokeparada;
+import java.sql.Date;
+import java.time.LocalDate;
+import modelo.RankingUsuario;
+
 /**
  *
  * @author DAM
@@ -28,9 +33,13 @@ public class StukemonGo {
         
         User x1 = new User("Ash Ketchum", "123456", 0, 0, 0, "Aula Mac", 0, 0 );
         User x2 = new User("Gary Oak", "123456", 20, 0, 0, "Aula 32", 0, 0 );
+        User x3 = new User("Entrenador 1", "123456", 0, 0, 0, "Cafeteria", 0, 0 );
         Pokemon j1 = new Pokemon("Bulbasur", "Planta", 100, 80, "Lavabos");
+        Pokemon j2 = new Pokemon("Charmander", "fuego", 90, 100, "Cafeteria");
         Pokeparada m1 = new Pokeparada("Parada 1", "Sala Actos", 3, 1 );
         Pokeparada m2 = new Pokeparada("Pokeparada 3", "Cafeteria", 10, 5 );
+        Pokedex p1 = new Pokedex(1, "Ash Ketchum", "Charmander", LocalDate.of(2018, 2, 2) ,90,100,100);
+        Pokedex p2 = new Pokedex(2, "Ash Ketchum", "Charmander", LocalDate.of(2018, 2, 2) ,90,100,100);
         
         System.out.println("************************************************************");
         System.out.println("Testeando conexión con la base de datos...");
@@ -116,8 +125,34 @@ public class StukemonGo {
             System.out.println(m2);
             cogerRegalos(stukemonGoDAO, x1,m2);
             System.out.println("Datos actualizados");
-            System.out.println(x1);
+            getUserByName(stukemonGoDAO, x1);
             
+            System.out.println("************************************************************");
+            System.out.println("Testeando capturar pokemon: "+j2.getName()+" por el usuario: "+x1.getUsername());
+            atrapaPokemon(stukemonGoDAO, x1,j2);
+            
+            System.out.println("************************************************************");
+            System.out.println("Testeando liberar pokemon: "+p1.getIdpokedex()+" del usuario: "+x1.getUsername());
+            liberaPokemon(stukemonGoDAO, x1,p1);
+            System.out.println(x1.getUsername()+" recibe 25 stucoins por liberar un pokemon");
+            
+            /*System.out.println("************************************************************");
+            System.out.println("Testeando combate pokemon");
+            System.out.println(x1.getUsername()+" con su pokemon "+ x1.getPokedex().get(2)+" vs. "+x3.getUsername()+" con su pokemon "+ x3.getPokedex().get(2));
+            //No consigo convertir el arrayList en List
+            stukemonGoDAO.combatePokemon(x1, x1.getPokedexUsuario().get(0),x3,x3.getPokedexUsuario().get(0)); */
+            
+            System.out.println("************************************************************");
+            System.out.println("Testeando PC y vida del pokemon de un usuario determinado");
+            System.out.println("Mejorar pokemon "+ p2.getPokemon() +" del usuario "+x1.getUsername());
+            updatePcVidaPokemon(stukemonGoDAO, x1,p2);
+            
+            System.out.println("************************************************************");
+            System.out.println("Testeando obtener el ranking de los usuarios que tengan más pokemons");
+            for(RankingUsuario rankingusuario : stukemonGoDAO.obtenerRankingUsuarios()){
+                    System.out.println(rankingusuario);
+                }
+           
         } catch (SQLException | MiExcepcion ex) {
             System.out.println("Error al conectar / desconectar: " + ex.getMessage());
         }
@@ -224,4 +259,31 @@ public class StukemonGo {
         }
     }
            
+              private static void atrapaPokemon(StukemonGoDAO stukemonGoDAO, User x1, Pokemon j2) throws SQLException{
+                  try{
+                      stukemonGoDAO.capturarPokemon(x1, j2);
+                      System.out.println("Se ha capturado correctamente el pokemon " + j2.getName() + " para el usuario " + x1.getUsername());
+                  } catch (MiExcepcion ex) {
+                        System.out.println(ex.getMessage());
+                  }
+              }
+              
+               private static void liberaPokemon(StukemonGoDAO stukemonGoDAO, User x1, Pokedex p1) throws SQLException{
+                  try{
+                      stukemonGoDAO.liberarPokemon(x1, p1);
+                      System.out.println("Pokemon " + p1.getPokemon() + " liberado correctamente por el usuario " + x1.getUsername());
+                  } catch (MiExcepcion ex) {
+                        System.out.println(ex.getMessage());
+                  }
+              }
+               
+              private static void updatePcVidaPokemon(StukemonGoDAO stukemonGoDAO, User x1, Pokedex p2) throws SQLException{
+                  try{
+                      stukemonGoDAO.mejorarPcVidaPokemon(x1, p2);
+                      System.out.println("Pokemon " + p2.getPokemon() + " mejorado pc y vida correctamente");
+                  } catch (MiExcepcion ex) {
+                        System.out.println(ex.getMessage());
+                  }
+              } 
+              
 }
